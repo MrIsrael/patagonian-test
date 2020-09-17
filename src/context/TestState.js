@@ -13,6 +13,7 @@ const initialState = {
     hireable: '',
     bio: ''
   },
+  products: []
 }
 
 // Context creation
@@ -32,12 +33,24 @@ export const GlobalProvider = ({ children }) => {
     })
   }
 
+  // Action / Create array from JSON file
+  function convertToArray(obj) {
+    const arr = Object.entries(obj)
+
+    dispatch({
+      type: 'TO_ARRAY',
+      payload: arr
+    })
+  }
+
   return (
     <GlobalContext.Provider 
       value={{
         defaultUser: state.defaultUser,
         userInfo: state.userInfo,
+        products: state.products,
         getUser,
+        convertToArray,
       }}
     >
       { children }

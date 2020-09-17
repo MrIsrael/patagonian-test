@@ -1,7 +1,7 @@
-import React, { Fragment, useContext } from 'react'
-import { Link } from 'react-router-dom'
+import React, { Fragment } from 'react'
+// import { Link } from 'react-router-dom'
 
-import { GlobalContext } from '../../context/TestState'
+// import { GlobalContext } from '../../context/TestState'
 
 const Gallery = () => {
   // const {  } = useContext(GlobalContext)

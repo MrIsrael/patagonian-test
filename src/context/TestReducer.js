@@ -7,6 +7,11 @@ export default (state, action) => {
                                             login: action.payload.login, location: action.payload.location, 
                                             hireable: action.payload.hireable, bio: action.payload.bio } }
       }
+    case 'TO_ARRAY':
+      return {
+        ...state,
+        products: action.payload.map( pair => Object.entries( pair[1] ) )
+      }
     default:
       return state
   }
