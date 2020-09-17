@@ -1,38 +1,86 @@
-.App {
+@import url('https://fonts.googleapis.com/css2?family=Manrope&family=Ubuntu&display=swap');             /* font-family: 'Ubuntu', sans-serif; */
+@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@300&family=Manrope&display=swap');    /* font-family: 'Barlow', sans-serif; */
+
+/* USED STYLES: */
+
+body {
+	background-color: #fff;
+  color: #000;
+  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Barlow', sans-serif;
+	font-weight: normal;
+  line-height: 1em;
+  margin: auto;
+}
+
+.navbar {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  grid-gap: 1px;
+  width: 100%;
+  margin: auto;
+  margin-bottom: 10px;
+  font-family: 'Ubuntu', sans-serif;
   text-align: center;
+  background-color: rgb(68, 68, 68);
+  color: rgb(228, 223, 213);
+  text-decoration: none;
+  overflow: auto;
+  vertical-align: middle;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.navbar-link {
+  text-align: center;
+  padding: 15px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.user-info-container {
+  width: 95%;
+  margin: auto;
+  text-align: left;
+  padding: 15px;
+  /* border: 3px dotted green; */
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.relative {
+  position: relative;
+  left: 0px;
 }
 
-.App-link {
-  color: #61dafb;
+.absolute {
+  position: absolute;
+  top: 0em;
+  left: 12em;
+  line-height: 0.2em;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.avatar {
+  vertical-align: middle;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: 3px solid blue;
+}
+
+.button {
+  background-color: rgb(68, 68, 68);
+  color: rgb(228, 223, 213);
+  border: 0px;
+  padding: 5px 30px;
+  border-radius: 3px;
+  text-align: center;
+  text-decoration: none;
+  transition-duration: 0.3s;
+  cursor: pointer;
+}
+
+.button:hover {
+	background-color: rgb(228, 223, 213);
+  color: rgb(68, 68, 68);
+}
+
+/* UNUSED STYLES: */
+
+.hidden {
+  display: none;
 }

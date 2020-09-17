@@ -1,26 +1,35 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import UserInfo from './components/pages/userInfo'
+import Gallery from './components/pages/imageGallery'
+import Products from './components/pages/products'
+import Navbar from './components/layout/navbar'
 
-function App() {
+import { GlobalProvider } from './context/TestState'
+
+import './App.css'
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <GlobalProvider>
+      <Router>
+      
+        <div className='navbar'>
+          <Navbar />
+        </div>
+
+        <div className='user-info-container'>
+          <Switch>
+            <Route exact path='/' component={UserInfo} />
+            <Route exact path='/user-info' component={UserInfo} />
+            <Route exact path='/gallery' component={Gallery} />
+            <Route exact path='/products' component={Products} />
+          </Switch>
+        </div>
+
+      </Router>
+    </GlobalProvider>
+  )
 }
 
-export default App;
+export default App
