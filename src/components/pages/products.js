@@ -4,7 +4,7 @@ import compras from '../../info/compras'
 import { GlobalContext } from '../../context/TestState'
 
 /* 
-Displays the content of the ​compras.json​ file (see below) in a responsive table, 
+Products: Displays the content of the ​compras.json​ file (see below) in a responsive table, 
 centered both horizontally and vertically, that should be able to be displayed properly 
 in a width of 300px or greater. The table should include a header with a different style 
 than the content’s rows.

@@ -12,6 +12,16 @@ export default (state, action) => {
         ...state,
         products: action.payload.map( pair => Object.entries( pair[1] ) )
       }
+    case 'RETRIEVE_LOCAL_STORAGE':
+      return {
+        ...state,
+        galleryArray: action.payload
+      }
+    case 'UPDATE_GALLERY_ARRAY':
+      return {
+        ...state,
+        galleryArray: state.galleryArray.push(action.payload)
+      }
     default:
       return state
   }

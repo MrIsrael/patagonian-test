@@ -2,6 +2,11 @@ import React, { Fragment, useContext, useEffect } from 'react'
 
 import { GlobalContext } from '../../context/TestState'
 
+/*
+Personal Content: ​It shows the user’s personal information, alongside a 
+rounded avatar of 150px of diameter with a coloured border.
+*/
+
 const UserInfo = () => {
   const { defaultUser, userInfo, getUser } = useContext(GlobalContext)
 
@@ -16,8 +21,10 @@ const UserInfo = () => {
       <div className='user-info-container'>
         <div style={{ marginBottom: '5px' }}>
           <label htmlFor='other-user'>Search another user, by his/her GitHub username: </label>
-          <input type='text' id='other-user' name='other-user' placeholder='Enter a GitHub username here...' 
-                autoFocus size='30' onKeyDown={(event) => event.keyCode === 13 && getUser(document.getElementById('other-user').value)} />  {/* Enter keyCode: 13 */}
+          <input type='text' id='other-user' name='other-user' autoFocus size='30'
+                placeholder='Enter a GitHub username here...' 
+                onKeyDown={(event) => event.keyCode === 13 && getUser(document.getElementById('other-user').value)} 
+          />  {/* Enter keyCode: 13 */}
         </div>
         <div style={{ marginBottom: '30px' }}>
           <button className='button' onClick={() => getUser(document.getElementById('other-user').value)}>Search</button>
