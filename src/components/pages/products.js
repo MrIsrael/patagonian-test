@@ -26,8 +26,8 @@ const Products = () => {
           List of products
         </div>
 
-        {products.map(prod => <div key={products.indexOf(prod)}>
-            {prod.map(row => <p key={prod.indexOf(row)}>
+        {products.map((prod, indexProd) => <div key={indexProd}>
+            {prod.map((row, indexRow) => <p key={indexRow}>
                 {row[0].replace(row[0].charAt(0), row[0].charAt(0).toUpperCase())}: {row[1]}
               </p>
             )}

@@ -12,15 +12,12 @@ export default (state, action) => {
         ...state,
         products: action.payload.map( pair => Object.entries( pair[1] ) )
       }
-    case 'RETRIEVE_LOCAL_STORAGE':
-      return {
-        ...state,
-        galleryArray: action.payload
-      }
+    case 'CHECK_LOCAL_STORAGE':
     case 'UPDATE_GALLERY_ARRAY':
       return {
         ...state,
-        galleryArray: state.galleryArray.push(action.payload)
+        initGalleryIndexes: action.hardcodedPics,
+        newAddedPics: action.uploadedPics
       }
     default:
       return state

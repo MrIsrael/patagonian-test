@@ -1,21 +1,22 @@
 import React, { Fragment, useContext, useEffect } from 'react'
+import { initGalleryPics } from '../../info/initGalleryPics'
 
 import { GlobalContext } from '../../context/TestState'
 
 /*
-Image Gallery:​ It contains a gallery of images inside a grid, in which each image 
-has a clickable option to delete it. It should also include an option to add images 
-to the gallery (a simple ​<input type="file">​ is enough).
-The gallery’s data should be persistent. That means, if we close the browser, it 
-should show the same information that it had before. You can use local text/jsonfiles, 
-services like ​Firestore​, ​volatile.wtf,​ or similar.
+Image Gallery:​ It contains a gallery of images inside a grid, in which each image has a 
+clickable option to delete it. It should also include an option to add images to the 
+gallery (a simple ​<input type="file">​ is enough).
+The gallery’s data should be persistent. That means, if we close the browser, it should 
+show the same information that it had before. You can use local text/jsonfiles, services 
+like ​Firestore​, ​volatile.wtf,​ or similar.
 */
-
+ 
 const Gallery = () => {
-  const { galleryArray, checkLocalStorage, grabImage } = useContext(GlobalContext)
+  const { initGalleryIndexes, newAddedPics, checkLocalStorage, deleteImage, grabImage } = useContext(GlobalContext)
 
   useEffect(() => {
-    checkLocalStorage(galleryArray)
+    checkLocalStorage()
     // eslint-disable-next-line
   }, [])
 
@@ -29,14 +30,23 @@ const Gallery = () => {
       </div>
 
       <div className='product-grid-container' style={ gridContainerStyle }>
+      
         <div className="product-grid-container-header" style={{ backgroundColor: 'purple' }}>
           Image Gallery
         </div>
 
-        {galleryArray.map(image => <div className='gallery-item-container' key={galleryArray.indexOf(image)}>
-            <img src={image} id='gallery-pic' alt='gallery-item' className='gallery-item' />
+        {initGalleryIndexes.map((imageNum, index) => <div className='gallery-item-container' key={index}>
+            <img src={initGalleryPics(imageNum)} alt='gallery-item' className='gallery-item' />
             <div className='gallery-button'>
-              <button className='button' onClick={() => console.log(image)}>Delete</button>
+              <button className='button' onClick={() => deleteImage(index, initGalleryIndexes, 'hardcodedPics')}>Delete</button>
+            </div>
+          </div>
+        )}
+
+        {newAddedPics.map((imageData, index) => <div className='gallery-item-container' key={index}>
+            <img src={imageData} alt='gallery-item' className='gallery-item' />
+            <div className='gallery-button'>
+              <button className='button' onClick={() => deleteImage(index, newAddedPics, 'uploadedPics')}>Delete</button>
             </div>
           </div>
         )}

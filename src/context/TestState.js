@@ -2,8 +2,6 @@ import React, { createContext, useReducer } from 'react'
 import axios from 'axios'
 import TestReducer from './TestReducer'
 
-import initialGallery from '../info/gallery'
-
 // Initial state
 const initialState = {
   defaultUser: 'mrisrael',
@@ -16,7 +14,8 @@ const initialState = {
     bio: ''
   },
   products: [],
-  galleryArray: initialGallery
+  initGalleryIndexes: [],
+  newAddedPics: []
 }
 
 // Context creation
@@ -30,6 +29,7 @@ export const GlobalProvider = ({ children }) => {
   // Action / Get User
   const getUser = async (username) => {
     const res = await axios.get(`https://api.github.com/users/${username}`)
+    console.log('Obteniendo datos de usuario...')
 
     dispatch({
       type: 'GET_USER',
@@ -41,6 +41,7 @@ export const GlobalProvider = ({ children }) => {
   // Action / Create array from JSON file
   function convertToArray(obj) {
     const arr = Object.entries(obj)
+    console.log('Obteniendo lista de productos...')
 
     dispatch({
       type: 'TO_ARRAY',
@@ -49,46 +50,67 @@ export const GlobalProvider = ({ children }) => {
   }
 
 
-  // Action / Add new uploaded image to LocalStorage
-  function grabImage(newImage) {
-    // console.log(newImage.files)
-    const fileInfo = new FileReader()
+  // Action / Check if gallery data already exists in LocalStorage; otherwise, initialize it
+  function checkLocalStorage() {
+    console.log('Verificando si hay datos preexistentes en LocalStorage...')
+    let hardcodedPics = JSON.parse(localStorage.getItem('hardcodedPics'))
+    let uploadedPics = JSON.parse(localStorage.getItem('uploadedPics'))
 
-    fileInfo.addEventListener('load', () => { 
-      localStorage.setItem('newImage', fileInfo.result)
-      addToGallery(fileInfo.result)
-      console.log('Agregada nueva imagen al LocalStorage con éxito')
+    if(localStorage.getItem('hardcodedPics') === null) { hardcodedPics = [0,1,2,3,4,5,6,7] }
+    if(localStorage.getItem('uploadedPics') === null) { uploadedPics = [] }
+
+    localStorage.setItem('hardcodedPics', JSON.stringify(hardcodedPics))
+    localStorage.setItem('uploadedPics', JSON.stringify(uploadedPics))
+
+    // console.log('initGalleryIndexes:', hardcodedPics)
+    // console.log('newAddedPics:', uploadedPics)
+
+    dispatch({
+      type: 'CHECK_LOCAL_STORAGE',
+      hardcodedPics: hardcodedPics,
+      uploadedPics: uploadedPics
     })
-
-    fileInfo.readAsDataURL(newImage.files[0])
   }
 
 
-  // Action / Add new uploaded image to gallery
-  function addToGallery(data) {
-    const newData = ('"' + data + '"').toString()       // HAY PROBLEMAS CON ESTE DATO OBTENIDO
-    console.log(newData)
+  // Action / Delete image from gallery, and make change persistent to LocalStorage
+  function deleteImage(index, arr, target) {
+    let hardcodedPics, uploadedPics
+
+    arr.splice(index, 1)
+    target === 'hardcodedPics' ? hardcodedPics = arr : hardcodedPics = state.initGalleryIndexes
+    target === 'uploadedPics' ? uploadedPics = arr : uploadedPics = state.newAddedPics
+    localStorage.setItem(target, JSON.stringify(arr))
+    console.log('Imagen borrada con éxito.')
 
     dispatch({
       type: 'UPDATE_GALLERY_ARRAY',
-      payload: data
+      hardcodedPics: hardcodedPics,
+      uploadedPics: uploadedPics
     })
   }
 
 
-  // Action / Check if gallery data already exists in LocalStorage
-  function checkLocalStorage(arr) {
-    let gallery = localStorage.getItem('imageGallery')
+  // Action / Get data from new uploaded image
+  function grabImage(newImage) {
+    // console.log(newImage.files)
+    const fileInfo = new FileReader()
+    fileInfo.addEventListener('load', () => { addToGallery(fileInfo.result, state.newAddedPics) })
+    fileInfo.readAsDataURL(newImage.files[0])   // returns fileInfo.result to addEventListener
+  }
 
-    if(gallery === null) {
-      localStorage.setItem('imageGallery', JSON.stringify(arr))
-    } else {
-      dispatch({
-        type: 'RETRIEVE_LOCAL_STORAGE',
-        payload: JSON.parse(gallery)
-      })
-      console.log('Datos de LocalStorage traidos exitosamente al GlobalState')
-    }
+
+  // Action / Add new uploaded image to LocalStorage and GlobalState
+  function addToGallery(imageData, arr) {
+    arr.push(imageData)
+    localStorage.setItem('uploadedPics', JSON.stringify(arr))
+    console.log('Nueva imagen cargada con éxito.')
+
+    dispatch({
+      type: 'UPDATE_GALLERY_ARRAY',
+      hardcodedPics: state.initGalleryIndexes,
+      uploadedPics: arr
+    })
   }
 
 
@@ -98,11 +120,13 @@ export const GlobalProvider = ({ children }) => {
         defaultUser: state.defaultUser,
         userInfo: state.userInfo,
         products: state.products,
-        galleryArray: state.galleryArray,
+        initGalleryIndexes: state.initGalleryIndexes,
+        newAddedPics: state.newAddedPics,
         getUser,
         convertToArray,
-        grabImage,
         checkLocalStorage,
+        grabImage,
+        deleteImage,
       }}
     >
       { children }
